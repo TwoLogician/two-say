@@ -5,9 +5,16 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
 
+    <Authors>Twodo</Authors>
+    <Company>Twodo</Company>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>two</ToolCommandName>
+    <PackageIconUrl>https://www.nuget.org/profiles/TwoLogician/avatar</PackageIconUrl>
+    <PackageId>twodo.say</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/TwoLogician/two-say</PackageProjectUrl>
+    <ToolCommandName>two</ToolCommandName>
+    <Version>1.2.0</Version>
 
   </PropertyGroup>
 
