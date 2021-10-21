@@ -14,7 +14,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <PackageProjectUrl>https://github.com/TwoLogician/two-say</PackageProjectUrl>
     <ToolCommandName>two</ToolCommandName>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
 
   </PropertyGroup>
 
