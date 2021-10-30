@@ -8,13 +8,24 @@ namespace twodo.say
 {
     class Program
     {
+        private static ConsoleColor _foregroundColor = Console.ForegroundColor;
+
         static void Main(string[] args)
         {
-            var commands = new List<string> { "a-z", "date", "ip", "guid" };
+            var commands = new List<string> { "a-z", "date", "guid", "ip" };
+            var foregroundColor = Console.ForegroundColor;
+            _foregroundColor = foregroundColor;
 
             if (!args.Any())
             {
-                WriteYellow("Usage: two [options]");
+                Console.Write("Usage: ");
+                WriteYellow("two [options]");
+                Console.WriteLine();
+                Console.WriteLine("Options:");
+                commands.ForEach(x =>
+                {
+                    WriteYellow($"  {x}");
+                });
                 return;
             }
             if (!args.Any(x => commands.Contains(x)))
@@ -32,48 +43,53 @@ namespace twodo.say
             {
                 WriteGreen(DateTime.Now);
             }
+            if (args.Any(x => x == "guid"))
+            {
+                WriteGreen(Guid.NewGuid());
+            }
             if (args.Any(x => x == "ip"))
             {
                 try
                 {
-                    var ip = Dns.GetHostEntry(Environment.MachineName).AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-                    WriteGreen(ip);
+                    using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                    {
+                        socket.Connect("8.8.8.8", 65530);
+                        var endPoint = socket.LocalEndPoint as IPEndPoint;
+                        var ip = endPoint.Address.ToString();
+                        WriteGreen(ip);
+                    }
                 }
                 catch (Exception ex)
                 {
                     WriteRed(ex.Message);
                 }
             }
-            if (args.Any(x => x == "guid"))
-            {
-                WriteGreen(Guid.NewGuid());
-            }
         }
 
-        static void SetGray()
+        static void SetDefaultForegroundColor()
         {
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = _foregroundColor;
         }
 
         static void WriteGreen(object value)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(value);
-            SetGray();
+            SetDefaultForegroundColor();
         }
 
         static void WriteRed(object value)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(value);
-            SetGray();
+            SetDefaultForegroundColor();
         }
 
         static void WriteYellow(object value)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(value);
-            SetGray();
+            SetDefaultForegroundColor();
         }
     }
 }

@@ -1,5 +1,8 @@
 ## TwoSay
 
+[![NuGet](https://img.shields.io/nuget/v/twodo.say.svg)](https://www.nuget.org/packages/twodo.say)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/twodo.say.svg)](https://www.nuget.org/packages/twodo.say)
+
 Usage: `two [options]`
 
 option | description
