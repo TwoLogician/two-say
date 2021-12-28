@@ -10,9 +10,10 @@ namespace twodo.say
     {
         private static ConsoleColor _foregroundColor = Console.ForegroundColor;
 
-        static void Main(string[] args)
+        static void Main(string[] arg)
         {
-            var commands = new List<string> { "a-z", "date", "guid", "ip" };
+            var args = arg.ToList();
+            var commands = new List<string> { "a-z", "date", "guid", "ip", "string-length" };
             var foregroundColor = Console.ForegroundColor;
             _foregroundColor = foregroundColor;
 
@@ -49,19 +50,25 @@ namespace twodo.say
             }
             if (args.Any(x => x == "ip"))
             {
+                using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    var endPoint = socket.LocalEndPoint as IPEndPoint;
+                    var ip = endPoint.Address.ToString();
+                    WriteGreen(ip);
+                }
+            }
+            if (args.Any(x => x == "string-length"))
+            {
                 try
                 {
-                    using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
-                    {
-                        socket.Connect("8.8.8.8", 65530);
-                        var endPoint = socket.LocalEndPoint as IPEndPoint;
-                        var ip = endPoint.Address.ToString();
-                        WriteGreen(ip);
-                    }
+                    var value = args[args.IndexOf("string-length") + 1];
+                    WriteGreen(value.Length);
                 }
                 catch (Exception ex)
                 {
-                    WriteRed(ex.Message);
+                    WriteRed(ex);
+                    WriteYellow("string-length [value]");
                 }
             }
         }
